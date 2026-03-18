@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+       <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        />
+        <style>
+            #map {
+                height: 400px;
+                width: 100%;
+            }
+            #status {
+                margin-top: 10px;
+            }
+            #stopButton{
+                display:none;
+            }
+        </style>
+</head>
+<body>
+  
+    <h1>Vamos ha hacer un contador de horas para tu trabajo</h1>
+
+    <p>Antes de crear un login donde recogeremos tus datos para el localstorage, vamos a crear el contador de horas y ver si tambien podemos <br>
+    habilitar la geolocalización para que recoja el punto de inicio y el de finalización</p>
+
+    <h3>Contador de tiempo:</h3>
+    <p id="time"></p>
+    <!-- <p id="localizacion"></p> -->
+    <button id="contador">Comenzar</button>
+    <button id="stopButton">Detener rastreo</button>
+    <div id="map"></div>
+    <p id="status"></p>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="contador.js"></script>
+    <script src="geolacalizacion.js"></script>
+</body>
+</html>
