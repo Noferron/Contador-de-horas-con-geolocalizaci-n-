@@ -14,6 +14,7 @@ const inicializarMap=(latitude,longitude)=>{
     }
     if(marker){
         marker.setLatLng([latitude,longitude]);
+        map.setView([latitude,longitude]);
     }else{
         marker=L.marker([latitude,longitude]).addTo(map);
     }
@@ -58,3 +59,4 @@ document
 document
 .getElementById("stopButton")
 .addEventListener("click", stopTraking);
+

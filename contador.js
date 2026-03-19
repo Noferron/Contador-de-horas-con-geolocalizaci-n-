@@ -1,3 +1,4 @@
+
 let segundos= 0;
 let minutos= 0;
 let horas= 0; 
@@ -17,7 +18,7 @@ contador.addEventListener("click",()=>{
             fechaInicio: fechaInicio,
             fecha: new Date().toLocaleDateString(),
             hora: new Date().toLocaleTimeString(),
-            tiempoTotal: `${dias}d ${horas}h ${minutos}m ${segundos}s`,
+            tiempoTotal: ` ${dias}d ${horas}h ${minutos}m ${segundos}s`,
             ubicacion: document.getElementById("localizacion").textContent,
             timestamp: Date.now()
             
@@ -25,8 +26,22 @@ contador.addEventListener("click",()=>{
         
         // Guardamos en LocalStorage (convertido a texto JSON)
         localStorage.setItem("ultimaSesion", JSON.stringify(datosSesion));
-        descargarDatos(datosSesion);
-        location.reload();
+        //descargarDatos(datosSesion);
+        //location.reload();
+
+        let historial = JSON.parse(localStorage.getItem("historialTrabajo"))||[];
+
+        historial.push(datosSesion);
+
+        localStorage.setItem("historialTrabajo", JSON.stringify(historial));
+
+        //descargarExcelCompleto(listaSesiones);
+        alert("Sesión añadida al historial");
+
+        segundos= 0;
+        minutos= 0;
+        horas= 0; 
+        dias= 0;
         alert("¡Sesión guardada con éxito!");
         return;
        
@@ -49,10 +64,23 @@ contador.addEventListener("click",()=>{
             dias+=1;
             horas=0;
         }
-        time.textContent= "Llevas trabajado: "+ ` dias: ${dias}`+` horas: ${horas}`+` minutos: ${minutos}`+` segundos: ${segundos}`;
+
+        if(segundos>1){
+            time.textContent= "Llevas trabajado: " + ` segundos: ${segundos}`;
+        }
+        if(minutos>1){
+            time.textContent= "Llevas trabajado: " + ` minutos: ${minutos}`+` segundos: ${segundos}`;
+        }
+        if(horas>1){
+            time.textContent= "Llevas trabajado: " +` horas: ${horas}`+ ` minutos: ${minutos}`+` segundos: ${segundos}`;
+        }
+        if(dias>1){
+            time.textContent= "Llevas trabajado: "+ ` dias: ${dias}`+` horas: ${horas}`+` minutos: ${minutos}`+` segundos: ${segundos}`;
+        }
+       
 
        obtenerUbicacion();
-      
+       
 
         contador.textContent="Finalizar";     
     },1000);
@@ -75,28 +103,87 @@ function obtenerUbicacion (){
         navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 }
 
-function descargarDatos(datos) {
-   /* const blob = new Blob([JSON.stringify(datos, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `sesion_trabajo_${Date.now()}.json`;
-    a.click();*/
+// function descargarDatos(datos) {
+//    /* const blob = new Blob([JSON.stringify(datos, null, 2)], { type: "application/json" });
+//     const url = URL.createObjectURL(blob);
+//     const a = document.createElement("a");
+//     a.href = url;
+//     a.download = `sesion_trabajo_${Date.now()}.json`;
+//     a.click();*/
 
-    const encabezados = "ID_Sesion, Fecha Inicio, Fecha, Hora, d, h, m, s, Latitud, coordenadas, Longitud, Coordenadas\n";
-    const fila = `${datos.timestamp}, ${datos.fechaInicio}, ${datos.fecha},${datos.dias}, ${datos.hora},"${datos.tiempoTotal}","${datos.ubicacion}"\n`;
+//     const encabezados = "ID_Sesion, Fecha Inicio, Fecha, d, h, m, s, Latitud, coordenadas, Longitud, Coordenadas\n";
+//     const fila = `${datos.timestamp}, ${datos.fechaInicio}, ${datos.fecha},${datos.tiempoTotal},"${datos.ubicacion}"\n`;
     
-    // Creamos el contenido con un marcador de orden de bytes (BOM) para que Excel reconozca los acentos (UTF-8)
-    const contenido = "\uFEFF" + encabezados + fila;
+//     // Creamos el contenido con un marcador de orden de bytes (BOM) para que Excel reconozca los acentos (UTF-8)
+//     const contenido = "\uFEFF" + encabezados + fila;
     
+//     const blob = new Blob([contenido], { type: "text/csv;charset=utf-8;" });
+//     const url = URL.createObjectURL(blob);
+//     const a = document.createElement("a");
+    
+//     a.href = url;
+//     a.download = `Registro_Trabajo_${datos.fecha.replace(/\//g, '-')}.csv`;
+//     a.click();
+
+//     // Limpieza de memoria
+//     URL.revokeObjectURL(url);
+// }
+
+const historial= document.getElementById("historial");
+
+historial.addEventListener("click",()=>{
+    const historialCompleto = JSON.parse(localStorage.getItem("historialTrabajo"));
+    descargarExcelCompleto(historialCompleto);
+})
+
+function descargarExcelCompleto(listaSesiones){
+    const encabezados = "ID_Sesion, Fecha, Hora,  d, h, m, s, Coordenadas\n";
+
+    if(!listaSesiones||listaSesiones.length===0){
+        alert ("No hay sesiones en el historial para descargar");
+        return;
+    }
+    let filas = "";
+    listaSesiones.forEach(sesion=>{
+        filas+=`${sesion.timestamp};${sesion.fechaInicio};${sesion.tiempoTotal};"${sesion.ubicacion}"\n`;
+    })
+    const contenido = "\uFEFF" + encabezados + filas;
+
     const blob = new Blob([contenido], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     
     a.href = url;
-    a.download = `Registro_Trabajo_${datos.fecha.replace(/\//g, '-')}.csv`;
+    a.download = `Historial_de_trabajo.csv`;
     a.click();
 
     // Limpieza de memoria
     URL.revokeObjectURL(url);
+}
+
+const borrarHistorial= document.getElementById("borrarHistorial");
+
+borrarHistorial.addEventListener("click",()=>{
+    borrarTodo();
+})
+
+const borrarSesion= document.getElementById("borrarSesion");
+
+borrarSesion.addEventListener("click",()=>{
+    borrarUltimaSesion();
+})
+
+
+const borrarUltimaSesion = () => {
+    if(confirm("¿Estás seguro que quieres borrar la última sesión de trabajo?")) {
+        localStorage.removeItem("ultimaSesion");
+        alert("Última sesión borrada");
+    }
+}
+
+const borrarTodo= () => {
+    if(confirm("¿Estás seguro de que quieres borrar todas las sesiones guardadas?")){
+        localStorage.removeItem("historialTrabajo");
+        alert("Historial borrado");
+    }
 }
