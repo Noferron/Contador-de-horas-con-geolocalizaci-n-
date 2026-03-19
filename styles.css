@@ -1,8 +1,9 @@
 :root{
     --backgr:linear-gradient(90deg,rgb(14, 4, 66) 0%, rgba(51, 51, 163, 0.959) 35%, rgb(46, 159, 182) 100%);
     --font: white;
+    --box:linear-gradient(90deg,rgb(4, 66, 35) 0%, rgba(51, 163, 88, 0.959) 35%, rgb(46, 182, 57) 100%);
     --button: linear-gradient(90deg,rgba(119, 27, 79, 0.116) 0%, rgba(120, 44, 143, 0.267) 35%, rgba(253, 115, 255, 0.171) 100%);
-}
+}   
 
 body{
     background: var(--backgr);
@@ -35,3 +36,11 @@ button:hover{
 .info{
     color:rgba(230, 144, 94, 0.911);
 }
+.sesion{
+    border: 0.2vmin;
+    background: var(--box);
+    border-radius: 10px;
+    padding:1vmin;
+    margin: 2vmin;
+}
+

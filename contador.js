@@ -80,7 +80,7 @@ contador.addEventListener("click",()=>{
        
 
        obtenerUbicacion();
-       
+       mostrarHistorial();
 
         contador.textContent="Finalizar";     
     },1000);
@@ -188,5 +188,24 @@ const borrarTodo= () => {
     }
 }
 
+const verHistorial = document.getElementById("verHistorial");
 function mostrarHistorial(){
+    const historialCompleto = JSON.parse(localStorage.getItem("historialTrabajo"));
+   
+    let historial=[];
+    
+    verHistorial.innerHTML = "";
+    historialCompleto.forEach(h=>{
+       verHistorial.innerHTML += `
+            <div class="sesion">
+                <span class="fecha">📅 ${h.fecha || 'Sin fecha'}</span>
+                <span class="hora-inicio">🕒 Inicio: ${h.fechaInicio}</span>
+                <span class="tiempo-total">⌛ Duración: ${h.tiempoTotal}</span>
+                <p class="ubicacion">📍 ${h.ubicacion}</p>
+                <small class="id-sesion">ID: ${h.timestamp}</small>
+            </div>
+        `;
+    });
+    
 }
+
