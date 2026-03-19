@@ -1,3 +1,37 @@
+:root{
+    --backgr:linear-gradient(90deg,rgb(14, 4, 66) 0%, rgba(51, 51, 163, 0.959) 35%, rgb(46, 159, 182) 100%);
+    --font: white;
+    --button: linear-gradient(90deg,rgba(119, 27, 79, 0.116) 0%, rgba(120, 44, 143, 0.267) 35%, rgba(253, 115, 255, 0.171) 100%);
+}
+
+body{
+    background: var(--backgr);
+
+    color: var(--font);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+h1{
+    color:var(--button);
+}
 #localizacion{
     display: none;
+}
+button{
+    color:var(--font);
+    font-weight: bolder;
+    background: var(--button);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+button:hover{
+    transform:translateY(-0.3vmin);
+    box-shadow:0.2rem 0.2rem 0.2rem 0px rgba(94, 4, 136, 0.75);
+}
+#time{
+    color:rgba(253, 215, 0, 0.911);
+
+}
+.info{
+    color:rgba(230, 144, 94, 0.911);
 }
