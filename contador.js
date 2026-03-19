@@ -187,3 +187,6 @@ const borrarTodo= () => {
         alert("Historial borrado");
     }
 }
+
+function mostrarHistorial(){
+}

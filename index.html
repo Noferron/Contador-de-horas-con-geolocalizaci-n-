@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
        <link
             rel="stylesheet"
             href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -23,10 +24,18 @@
 </head>
 <body>
     <p id="localizacion"></p>
-    <h1>Vamos ha hacer un contador de horas para tu trabajo</h1>
+    <h1>Contador de horas con geolocalización</h1>
 
-    <p>Antes de crear un login donde recogeremos tus datos para el localstorage, vamos a crear el contador de horas y ver si tambien podemos <br>
-    habilitar la geolocalización para que recoja el punto de inicio y el de finalización</p>
+    <p>Aquí tienes un contador de horas de trabajo independiente del que te pueda ofrecer tu empresa. <br>
+        Tiene incluida geolocalización del dispositivo en el que inicies el contador, podrás descargarte el historial <br>
+        de todas tus sesiones de trabajo y así poder archivarlas en un excel. 
+    </p>
+
+    <h4>Importante: <br>
+        - Este proyecto trabaja en local, es decir, si cierras la pestaña o si borras el historial o la caché del navegador se perderán los datos.
+        <br>
+        - La geolocalización se realiza a traves de funciones nativas de Javascript y el mapa es generado a través de la API Leaflet. Ningún dato se guarda ni usa para nada. 
+        </h4>
 
     <h3>Contador de tiempo:</h3>
     <p id="time"></p>
